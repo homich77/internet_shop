@@ -177,3 +177,10 @@ fabric.properties
 
 # Sonarlint plugin
 .idea/sonarlint
+
+# BD
+internet_shop/**/auto.sqlite3
+
+# media_files
+media_files/
+!media_files/default
