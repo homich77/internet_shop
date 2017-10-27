@@ -37,6 +37,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    'django_extensions',
+
+    'trade_app',
 ]
 
 MIDDLEWARE = [
@@ -54,7 +58,11 @@ ROOT_URLCONF = 'internet_shop.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            os.path.join(BASE_DIR, 'templates'),
+            os.path.join(BASE_DIR, 'trade_app/templates/products/'),
+            os.path.join(BASE_DIR, 'trade_app/templates/specification/'),
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -76,7 +84,7 @@ WSGI_APPLICATION = 'internet_shop.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'NAME': os.path.join(BASE_DIR, 'auto.sqlite3'),
     }
 }
 
@@ -118,3 +126,19 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "static"),
+]
+
+
+# Media
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media_files')
+DEFAULT_LOGO = 'default/default_logo.jpeg'
+
+
+# Celery
+CELERY_BROKER_URL = 'redis://'
+CELERY_RESULT_BACKEND = 'redis://'
+CELERY_TIME_ZONE = 'UTC'
