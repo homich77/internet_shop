@@ -1,0 +1,70 @@
+{% extends 'base.html'%}
+{% load humanize %}
+{% block content %}
+    <h2>{{ object.name }}</h2>
+    <a href="{{ object.logo.url }}"><img src="{{ object.logo.url }}" alt="Car preview" height="300px"></a>
+    <h2>Description:</h2>
+    <h5>{{ object.description }}</h5>
+    <h2>Price from {{ object.min_price|intcomma }}$</h2>
+    <h2>Specifications:</h2>
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+        {% for spec in object.specifications.all %}
+            <li class="nav-item">
+            {% if spec == object.specifications.all.1 %}
+                <a class="nav-link active" id="{{ spec.name }}-tab" data-toggle="tab" href="#{{ spec.name }}" role="tab" aria-controls="{{ spec.name }}" aria-selected="true">{{ spec.name }}</a>
+            {% else %}
+                <a class="nav-link" id="{{ spec.name }}-tab" data-toggle="tab" href="#{{ spec.name }}" role="tab" aria-controls="{{ spec.name }}" aria-selected="false">{{ spec.name }}</a>
+            {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+    <div class="tab-content" id="myTabContent">
+        {% for spec in object.specifications.all %}
+            {% if spec == object.specifications.all.1 %}
+                <div class="tab-pane fade show active" id="{{ spec.name }}" role="tabpanel" aria-labelledby="{{ spec.name }}-tab">{% include "specification_detail.html" with spec=spec%}</div>
+            {% else %}
+                <div class="tab-pane fade" id="{{ spec.name }}" role="tabpanel" aria-labelledby="{{ spec.name }}-tab">{% include "specification_detail.html" with spec=spec%}</div>
+            {% endif %}
+        {% endfor %}
+    </div><br>
+    <form method="post" action="{% url 'cars:product_delete' pk=object.id %}">{% csrf_token %}
+        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal">
+            Delete
+        </button>
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Attention!</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                Are you sure that you want to delete {{ object.name }}?
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-success" data-dismiss="modal">Cancel</button>
+                <button type="submit" class="btn btn-danger">Delete</button>
+              </div>
+            </div>
+          </div>
+        </div>
+    </form>
+{% endblock content%}
+<ul class="nav nav-tabs" id="myTab" role="tablist">
+  <li class="nav-item">
+    <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Home</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Profile</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Contact</a>
+  </li>
+</ul>
+<div class="tab-content" id="myTabContent">
+  <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">...</div>
+  <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">...</div>
+  <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">...</div>
+</div>

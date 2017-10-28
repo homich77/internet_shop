@@ -1,0 +1,13 @@
+{% extends 'base.html'%}
+{% block content %}
+    {% for car in object_list %}
+        <div class="card" style="width: 20rem;">
+            <img class="card-img-top" src="{{ car.logo.url }}" alt="Card image cap">
+            <div class="card-body">
+                <h4 class="card-title">{{ car.name }}</h4>
+                <p class="card-text">{{ car.description|truncatechars:130 }}</p>
+                <a href="{% url 'cars:product_details' pk=car.id %}" class="btn btn-primary">Read more ...</a>
+            </div>
+        </div><br>
+    {% endfor %}
+{% endblock content%}
