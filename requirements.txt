@@ -1,6 +1,11 @@
+amqp==2.2.2
+billiard==3.5.0.3
+celery==4.1.0
 Django==1.11.6
 django-extensions==1.9.6
+kombu==4.1.0
 olefile==0.44
 Pillow==4.3.0
 pytz==2017.2
 six==1.11.0
+vine==1.1.4
