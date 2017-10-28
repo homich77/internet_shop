@@ -60,8 +60,6 @@ TEMPLATES = [
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
             os.path.join(BASE_DIR, 'templates'),
-            os.path.join(BASE_DIR, 'trade_app/templates/products/'),
-            os.path.join(BASE_DIR, 'trade_app/templates/specification/'),
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -135,7 +133,7 @@ STATICFILES_DIRS = [
 # Media
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media_files')
-DEFAULT_LOGO = 'default/default_logo.jpeg'
+DEFAULT_LOGO = 'default/default_logo.jpg'
 
 
 # Celery
