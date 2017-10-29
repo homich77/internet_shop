@@ -2,14 +2,43 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.views.decorators.http import require_http_methods
 from django.views import generic
 from django.urls import reverse_lazy
+from django.db.models.query import Q
 
 from trade_app.models import Product, Comment, Specification
-from trade_app.forms import ProductForm, CommentForm, SpecificationForm
+from trade_app.forms import ProductForm, CommentForm, SpecificationForm, ProductSearchForm
 
 
 # All about Products ----------------------------
 class ProductsListView(generic.ListView):
     model = Product
+    template_name = 'product_list.html'
+
+    def get_queryset(self):
+        if self.request.GET.get('car_name'):
+            queryset = Product.objects.filter(name__icontains=self.request.GET.get('car_name'))
+        elif len(self.request.GET) > 1:
+            print(self.request.GET)
+            queryset = Product.objects.filter(
+                specifications__name__icontains=self.request.GET.get('name'),
+                specifications__mark__icontains=self.request.GET.get('mark'),
+                specifications__model__icontains=self.request.GET.get('model'),
+                specifications__engine_type__icontains=self.request.GET.get('engine_type'),
+                specifications__transmission__icontains=self.request.GET.get('transmission')
+            )
+            if self.request.GET.get('gearbox'):
+                queryset = queryset.filter(
+                    specifications__gearbox=int(self.request.GET.get('gearbox'))
+                )
+            products_id = set([obj.id for obj in queryset])
+            queryset = Product.objects.filter(id__in=products_id)
+        else:
+            queryset = super(ProductsListView, self).get_queryset()
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super(ProductsListView, self).get_context_data(**kwargs)
+        context['search_form'] = ProductSearchForm()
+        return context
 
 
 class ProductsDetailView(generic.DetailView):

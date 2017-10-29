@@ -12,6 +12,8 @@
             <li class="nav-item">
             {% if spec == object.specifications.all.1 %}
                 <a class="nav-link active" id="{{ spec.name }}-tab" data-toggle="tab" href="#{{ spec.name }}" role="tab" aria-controls="{{ spec.name }}" aria-selected="true">{{ spec.name }}</a>
+            {% elif object.specifications.all|length_is:"1" %}
+                <a class="nav-link active" id="{{ spec.name }}-tab" data-toggle="tab" href="#{{ spec.name }}" role="tab" aria-controls="{{ spec.name }}" aria-selected="true">{{ spec.name }}</a>
             {% else %}
                 <a class="nav-link" id="{{ spec.name }}-tab" data-toggle="tab" href="#{{ spec.name }}" role="tab" aria-controls="{{ spec.name }}" aria-selected="false">{{ spec.name }}</a>
             {% endif %}
@@ -21,6 +23,8 @@
     <div class="tab-content" id="myTabContent">
         {% for spec in object.specifications.all %}
             {% if spec == object.specifications.all.1 %}
+                <div class="tab-pane fade show active" id="{{ spec.name }}" role="tabpanel" aria-labelledby="{{ spec.name }}-tab">{% include "specification_detail.html" with spec=spec%}</div>
+            {% elif object.specifications.all|length_is:"1" %}
                 <div class="tab-pane fade show active" id="{{ spec.name }}" role="tabpanel" aria-labelledby="{{ spec.name }}-tab">{% include "specification_detail.html" with spec=spec%}</div>
             {% else %}
                 <div class="tab-pane fade" id="{{ spec.name }}" role="tabpanel" aria-labelledby="{{ spec.name }}-tab">{% include "specification_detail.html" with spec=spec%}</div>
