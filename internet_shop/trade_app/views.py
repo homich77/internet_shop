@@ -1,8 +1,7 @@
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import get_object_or_404, redirect
 from django.views.decorators.http import require_http_methods
 from django.views import generic
 from django.urls import reverse_lazy
-from django.db.models.query import Q
 
 from trade_app.models import Product, Comment, Specification
 from trade_app.forms import ProductForm, CommentForm, SpecificationForm, ProductSearchForm

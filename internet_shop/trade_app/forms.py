@@ -4,6 +4,13 @@ from django.utils.translation import ugettext_lazy
 from trade_app.models import Product, Comment, Specification
 
 
+def get_choices(model, field):
+    set_of_field = set([eval('object.' + field) for object in model.objects.all()])
+    choices = tuple([(field, field) for field in set_of_field])
+    choices = (('', 'all'), ) + choices
+    return choices
+
+
 class ProductForm(forms.ModelForm):
 
     class Meta:
@@ -46,9 +53,9 @@ class ProductSearchForm(forms.Form):
         ('MT', 'manual transmission'),
         ('AT', 'automatic transmission')
     )
-    name = forms.CharField(max_length=64, required=False)
-    mark = forms.CharField(max_length=32, required=False)
-    model = forms.CharField(max_length=32, required=False)
-    engine_type = forms.CharField(max_length=64, required=False)
+    name = forms.ChoiceField(choices=get_choices(Specification, 'name'), required=False)
+    mark = forms.ChoiceField(choices=get_choices(Specification, 'mark'), required=False)
+    model = forms.ChoiceField(choices=get_choices(Specification, 'model'), required=False)
+    engine_type = forms.ChoiceField(choices=get_choices(Specification, 'engine_type'), required=False)
     gearbox = forms.ChoiceField(choices=GEARBOX, required=False)
     transmission = forms.ChoiceField(choices=TYPE_OF_TRANSMISSION, required=False)
