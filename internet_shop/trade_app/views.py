@@ -99,6 +99,7 @@ class SpecificationsDetailView(generic.DetailView):
 
 
 class SpecificationsUpdateView(generic.UpdateView):
+    model = Specification
     form_class = SpecificationForm
     template_name = 'specification_form.html'
 
@@ -108,9 +109,4 @@ class SpecificationsUpdateView(generic.UpdateView):
 
 class SpecificationsDeleteView(generic.DeleteView):
     model = Specification
-
-    # def get_success_url(self):
-    #     return reverse_lazy(
-    #         'cars:product_details',
-    #         kwargs={'pk': self.kwargs.get('id')}
-    #     )
+    success_url = reverse_lazy('cars:products_list')

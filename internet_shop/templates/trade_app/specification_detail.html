@@ -1,3 +1,16 @@
+{% load staticfiles %}
+<form method="post" action="{% url 'cars:spec_delete' pk=spec.id %}">{% csrf_token %}
+    <div style="float: right;">
+        <button type="submit" class="btn btn-light"><img src="{% static 'img/garbage.png' %}" height="25"></button>
+    </div>
+</form>
+<div style="float: right;">
+    <button type="button" class="btn btn-light">
+        <a href="{% url 'cars:spec_update' pk=spec.id %}">
+            <img src="{% static 'img/edit.svg' %}" height="25">
+        </a>
+    </button>
+</div>
 <p><b>Mark:</b> {{ spec.mark }}</p>
 <p><b>Model:</b> {{ spec.model }}</p>
 <p><b>Engine:</b> {{ spec.engine_type }}</p>
