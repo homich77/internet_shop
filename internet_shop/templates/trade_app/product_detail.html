@@ -4,11 +4,11 @@
 {% block content %}
     {% include "object_delete.html" with url_name='cars:product_delete' %}
     <div style="float: right;">
-        <button type="button" class="btn btn-light">
+        <div class="btn btn-light">
             <a href="{% url 'cars:products_update' pk=object.id %}">
                 <img src="{% static 'img/edit.svg' %}" height="25">
             </a>
-        </button>
+        </div>
     </div>
     <h2>{{ object.name }}</h2>
     <a href="{{ object.logo.url }}"><img src="{{ object.logo.url }}" alt="Car preview" height="300px"></a>
