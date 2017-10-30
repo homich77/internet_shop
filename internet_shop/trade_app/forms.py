@@ -1,5 +1,6 @@
 from django import forms
 from django.utils.translation import ugettext_lazy
+from functools import partial
 
 from trade_app.models import Product, Comment, Specification
 
@@ -53,9 +54,9 @@ class ProductSearchForm(forms.Form):
         ('MT', 'manual transmission'),
         ('AT', 'automatic transmission')
     )
-    name = forms.ChoiceField(choices=get_choices(Specification, 'name'), required=False)
-    mark = forms.ChoiceField(choices=get_choices(Specification, 'mark'), required=False)
-    model = forms.ChoiceField(choices=get_choices(Specification, 'model'), required=False)
-    engine_type = forms.ChoiceField(choices=get_choices(Specification, 'engine_type'), required=False)
+    name = forms.ChoiceField(choices=partial(get_choices, Specification, 'name'), required=False)
+    mark = forms.ChoiceField(choices=partial(get_choices, Specification, 'mark'), required=False)
+    model = forms.ChoiceField(choices=partial(get_choices, Specification, 'model'), required=False)
+    engine_type = forms.ChoiceField(choices=partial(get_choices, Specification, 'engine_type'), required=False)
     gearbox = forms.ChoiceField(choices=GEARBOX, required=False)
     transmission = forms.ChoiceField(choices=TYPE_OF_TRANSMISSION, required=False)
