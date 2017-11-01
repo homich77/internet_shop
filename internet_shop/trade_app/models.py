@@ -6,6 +6,7 @@ from django.core.urlresolvers import reverse
 from django.db.models.signals import post_save, post_delete, pre_save
 from django.dispatch import receiver
 from django.conf import settings
+from django.contrib.auth import get_user_model
 from PIL import Image
 
 
@@ -18,6 +19,7 @@ def preview_upload_location(instance, filename):
 
 
 class Product(models.Model):
+    author = models.ForeignKey(get_user_model(), related_name='products')
     name = models.CharField(max_length=64, unique=True)
     logo = models.ImageField(upload_to=logo_upload_location, default=settings.DEFAULT_LOGO)
     preview = models.ImageField(upload_to=preview_upload_location, blank=True)
@@ -36,7 +38,7 @@ class Product(models.Model):
 
 
 class Comment(models.Model):
-    author = models.CharField(max_length=64)
+    author = models.ForeignKey(get_user_model(), related_name='comments')
     text = models.TextField()
     create_date = models.DateTimeField(auto_now=False, auto_now_add=True)
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='comments')
@@ -46,6 +48,7 @@ class Comment(models.Model):
 
 
 class Specification(models.Model):
+    author = models.ForeignKey(get_user_model(), related_name='specifications')
     name = models.CharField(max_length=64)
     mark = models.CharField(max_length=32)
     model = models.CharField(max_length=32)

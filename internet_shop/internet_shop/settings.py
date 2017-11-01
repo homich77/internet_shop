@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django_extensions',
 
     'trade_app',
+    'auth_app',
 ]
 
 MIDDLEWARE = [
@@ -62,6 +63,7 @@ TEMPLATES = [
         'DIRS': [
             os.path.join(BASE_DIR, 'templates'),
             os.path.join(BASE_DIR, 'templates/trade_app'),
+            os.path.join(BASE_DIR, 'templates/auth_app'),
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -107,6 +109,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+AUTH_USER_MODEL = 'auth_app.MyUser'
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.11/topics/i18n/

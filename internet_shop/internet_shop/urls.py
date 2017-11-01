@@ -20,7 +20,8 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^cars/', include('trade_app.urls', namespace='cars'))
+    url(r'^cars/', include('trade_app.urls', namespace='cars')),
+    url(r'^auth/', include('auth_app.urls', namespace='auth')),
 ]
 
 if settings.DEBUG:
