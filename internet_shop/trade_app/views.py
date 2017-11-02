@@ -13,23 +13,23 @@ class ProductsListView(generic.ListView):
     template_name = 'product_list.html'
 
     def get_queryset(self):
-        if self.request.GET.get('car_name'):
-            queryset = Product.objects.filter(name__icontains=self.request.GET.get('car_name'))
-        elif len(self.request.GET) > 1:
-            print(self.request.GET)
-            queryset = Product.objects.filter(
-                specifications__name__icontains=self.request.GET.get('name'),
-                specifications__mark__icontains=self.request.GET.get('mark'),
-                specifications__model__icontains=self.request.GET.get('model'),
-                specifications__engine_type__icontains=self.request.GET.get('engine_type'),
-                specifications__transmission__icontains=self.request.GET.get('transmission')
+        attrs = self.request.GET
+        if attrs.get('car_name'):
+            queryset = Product.objects.filter(name__icontains=attrs.get('car_name'))
+        elif len(attrs) > 1:
+            # to group data by using distinct .order_by('product_id').distinct('product_id')
+            specs = Specification.objects.filter(
+                name__icontains=attrs.get('name'),
+                mark__icontains=attrs.get('mark'),
+                model__icontains=attrs.get('model'),
+                engine_type__icontains=attrs.get('engine_type'),
+                transmission__icontains=attrs.get('transmission')
             )
-            if self.request.GET.get('gearbox'):
-                queryset = queryset.filter(
-                    specifications__gearbox=int(self.request.GET.get('gearbox'))
+            if attrs.get('gearbox'):
+                specs = specs.filter(
+                    specifications__gearbox=int(attrs.get('gearbox'))
                 )
-            products_id = set([obj.id for obj in queryset])
-            queryset = Product.objects.filter(id__in=products_id)
+            queryset = Product.objects.filter(pk__in=specs.values('product_id'))
         else:
             queryset = super(ProductsListView, self).get_queryset()
         return queryset
